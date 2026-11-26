@@ -143,7 +143,7 @@ public final class TabManager {
 				continue;
 			}
 			if (text == null) {
-				text = StyledText.of(message.content());
+				text = StyledText.of(MessageExtras.content(message));
 			}
 			if (tab.matches(text)) {
 				mask |= 1 << i;

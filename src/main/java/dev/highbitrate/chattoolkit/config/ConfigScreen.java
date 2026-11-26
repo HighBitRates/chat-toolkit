@@ -98,6 +98,11 @@ public final class ConfigScreen extends Screen {
 		buttonRow("tabs_help", () -> Component.translatable("chattoolkit.config.option.tabs_help.button"),
 			() -> this.minecraft.gui.setScreen(new HowToUseScreen(this)), null);
 
+		section("chat");
+		toggle("stack_messages", () -> c.stackMessages, v -> c.stackMessages = v);
+		slider("stack_window", 0, 300, 10, () -> c.stackWindowSeconds, v -> c.stackWindowSeconds = v,
+			v -> v == 0 ? Component.translatable("chattoolkit.config.value.any_time") : Component.translatable("chattoolkit.config.value.seconds", v));
+
 		section("search");
 		toggle("search_bar", () -> c.searchBar, v -> c.searchBar = v);
 		choice("search_width", ChatToolkitConfig.SearchWidth.values(), () -> c.searchWidth, v -> c.searchWidth = v);

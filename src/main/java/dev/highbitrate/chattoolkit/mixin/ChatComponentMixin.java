@@ -6,6 +6,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.highbitrate.chattoolkit.chat.AnimationGuard;
 import dev.highbitrate.chattoolkit.chat.ChatHighlighter;
 import dev.highbitrate.chattoolkit.chat.ChatLift;
+import dev.highbitrate.chattoolkit.chat.MessageStacker;
 import dev.highbitrate.chattoolkit.chat.SearchState;
 import dev.highbitrate.chattoolkit.config.ChatToolkitConfig;
 import dev.highbitrate.chattoolkit.tabs.TabManager;
@@ -40,8 +41,9 @@ public abstract class ChatComponentMixin {
 		ChatComponent self = (ChatComponent) (Object) this;
 		AnimationGuard.before(self);
 		try {
-			original.call(contents, signature, source, tag);
+			original.call(MessageStacker.prepare(self, contents), signature, source, tag);
 		} finally {
+			MessageStacker.clear();
 			AnimationGuard.after(self);
 		}
 	}
@@ -64,6 +66,7 @@ public abstract class ChatComponentMixin {
 		)
 	)
 	private void chattoolkit$showIfMatching(ChatComponent chat, GuiMessage message, Operation<Void> original) {
+		MessageStacker.attach(message);
 		TabManager.onNewMessage(message);
 		if (SearchState.isVisible(message) && TabManager.showsInMain(message)) {
 			original.call(chat, message);

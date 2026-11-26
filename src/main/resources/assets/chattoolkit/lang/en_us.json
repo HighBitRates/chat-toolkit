@@ -313,5 +313,13 @@
 	"chattoolkit.tabs.import_hint": "Put .json preset files in the presets folder, or drag them onto the game window while this screen is open.",
 	"chattoolkit.tabs.import_failed": "%s isn't a preset file",
 	"chattoolkit.tabs.drop_failed": "Those files aren't presets",
-	"chattoolkit.tabs.imported_many": "Added %s presets"
+	"chattoolkit.tabs.imported_many": "Added %s presets",
+	"chattoolkit.config.section.chat": "Chat",
+	"chattoolkit.config.option.stack_messages": "Stack repeated messages",
+	"chattoolkit.config.option.stack_messages.tooltip": "When the same message comes in again, the old copy is replaced with one line and a count, like (x12). Hover the count to see when it started.",
+	"chattoolkit.config.option.stack_window": "Only stack if within",
+	"chattoolkit.config.option.stack_window.tooltip": "How long a message can be repeated after and still stack. Set to the left for any time.",
+	"chattoolkit.config.value.seconds": "%ss",
+	"chattoolkit.config.value.any_time": "Any time",
+	"chattoolkit.stack.hover": "Repeated %s times since %s"
 }

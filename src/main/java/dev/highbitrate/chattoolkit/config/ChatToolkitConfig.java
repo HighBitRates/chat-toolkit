@@ -32,6 +32,11 @@ public final class ChatToolkitConfig {
 
 	// --- Tabs ---
 	public boolean tabsEnabled = true;
+	public boolean unreadSeparator = true;
+
+	// --- Chat ---
+	public boolean stackMessages = true;
+	public int stackWindowSeconds = 60;
 
 	// --- Position ---
 	public boolean liftChat = true;
@@ -126,6 +131,7 @@ public final class ChatToolkitConfig {
 			calcAngles = AngleMode.DEGREES;
 		}
 		historySize = clamp(historySize, 100, 10_000);
+		stackWindowSeconds = clamp(stackWindowSeconds, 0, 600);
 		panelOpacity = clamp(panelOpacity, 0, 100);
 		chatOffset = clamp(chatOffset, 0, 100);
 		if (hudX > 1 || hudY > 1 || hudX < 0 || hudY < 0) {

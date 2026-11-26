@@ -577,8 +577,8 @@ public final class ChatScreenController {
 		String plain = MessageExtras.plain(message);
 		List<ContextMenu.Item> items = new ArrayList<>();
 		items.add(item("chattoolkit.menu.copy", null, false, () -> copy(plain, x, y)));
-		if (TextFormatter.hasFormatting(message.content())) {
-			items.add(item("chattoolkit.menu.copy_formatted", null, false, () -> copy(TextFormatter.toLegacy(message.content()), x, y)));
+		if (TextFormatter.hasFormatting(MessageExtras.content(message))) {
+			items.add(item("chattoolkit.menu.copy_formatted", null, false, () -> copy(TextFormatter.toLegacy(MessageExtras.content(message)), x, y)));
 		}
 		items.add(item("chattoolkit.menu.paste", null, false, () -> pasteIntoChat(plain)));
 
@@ -610,7 +610,7 @@ public final class ChatScreenController {
 		}
 
 		items.add(item("chattoolkit.menu.save_note", null, true, () -> {
-			Note note = NoteStore.get().add(TextFormatter.toLegacy(message.content()), null, null);
+			Note note = NoteStore.get().add(TextFormatter.toLegacy(MessageExtras.content(message)), null, null);
 			showToast(Component.translatable("chattoolkit.toast.note_saved", note.id), x, y, false);
 		}));
 		if (SearchState.isActive()) {
