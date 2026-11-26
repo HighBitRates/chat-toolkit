@@ -228,7 +228,7 @@
 	"chattoolkit.tabs.new": "+ New tab",
 	"chattoolkit.tabs.new_tab_name": "New tab",
 	"chattoolkit.tabs.pop_out": "Pop out into its own window",
-	"chattoolkit.tabs.tab_hint": "Click to open. Right-click to edit",
+	"chattoolkit.tabs.tab_hint": "Click to open. Right-click for options",
 	"chattoolkit.tabs.help_button": "? How to use",
 	"chattoolkit.tabs.presets_button": "Presets...",
 	"chattoolkit.tabs.save": "Save",
@@ -324,5 +324,11 @@
 	"chattoolkit.stack.hover": "Repeated %s times since %s",
 	"chattoolkit.config.option.unread_separator": "Unread separator",
 	"chattoolkit.config.option.unread_separator.tooltip": "When you open a tab with a red dot, a red line shows where the messages you haven't seen start.",
-	"chattoolkit.separator.new": "NEW"
+	"chattoolkit.separator.new": "NEW",
+	"chattoolkit.tabs.menu.open": "Open",
+	"chattoolkit.tabs.menu.pop_out": "Pop out",
+	"chattoolkit.tabs.menu.dock": "Put back in the tab bar",
+	"chattoolkit.tabs.menu.mute": "Mute tab",
+	"chattoolkit.tabs.menu.unmute": "Unmute tab",
+	"chattoolkit.tabs.menu.edit": "Edit tab..."
 }

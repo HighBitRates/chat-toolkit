@@ -330,6 +330,10 @@ public final class ChatScreenController {
 				}
 				return true;
 			}
+			if (button == InputConstants.MOUSE_BUTTON_RIGHT && (hit.part() == TabWindows.Part.TITLE || hit.part() == TabWindows.Part.CLOSE)) {
+				openTabMenu(tab, (int) x, (int) y);
+				return true;
+			}
 			if (button == InputConstants.MOUSE_BUTTON_RIGHT && ChatToolkitConfig.get().contextMenu) {
 				GuiMessage message = TabWindows.messageAt(tab, x, y);
 				if (message != null) {
@@ -374,9 +378,29 @@ public final class ChatScreenController {
 			}
 			click();
 		} else if (button == InputConstants.MOUSE_BUTTON_RIGHT) {
-			Minecraft.getInstance().gui.setScreen(TabEditorScreen.forTab(null, tab));
+			openTabMenu(tab, (int) x, (int) y);
 		}
 		return true;
+	}
+
+	// Right-click on a tab or a window's title bar
+	private void openTabMenu(ChatTab tab, int x, int y) {
+		List<ContextMenu.Item> items = new ArrayList<>();
+		if (tab.popped) {
+			items.add(item("chattoolkit.tabs.menu.dock", null, false, () -> {
+				TabManager.dock(tab, TabManager.tabs().size());
+				TabManager.select(tab);
+			}));
+		} else {
+			items.add(item("chattoolkit.tabs.menu.open", null, false, () -> TabManager.select(tab)));
+			items.add(item("chattoolkit.tabs.menu.pop_out", null, false, () -> TabManager.popOut(tab)));
+		}
+		items.add(item(tab.muted ? "chattoolkit.tabs.menu.unmute" : "chattoolkit.tabs.menu.mute", null, true,
+			() -> TabManager.setMuted(tab, !tab.muted)));
+		items.add(item("chattoolkit.tabs.menu.edit", null, false,
+			() -> Minecraft.getInstance().gui.setScreen(TabEditorScreen.forTab(null, tab))));
+		menu = new ContextMenu(null, Component.literal(tab.name), items, x, y, screen.width, screen.height, Minecraft.getInstance().font);
+		hovered = null;
 	}
 
 	private boolean tabBarShown() {

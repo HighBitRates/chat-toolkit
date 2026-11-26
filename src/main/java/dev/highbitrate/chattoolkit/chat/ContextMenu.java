@@ -12,7 +12,7 @@ import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 
-// The right-click menu for a chat message. Square, translucent, fades and scales in from the cursor
+// The right-click menu for a chat message (and for tabs, with no message). Square, translucent, fades and scales in from the cursor
 public final class ContextMenu {
 	// One row. detail is shown dimmed on the right (e.g. the player name)
 	public record Item(Component label, @Nullable Component detail, Runnable action, boolean dividerBefore) {
@@ -27,7 +27,7 @@ public final class ContextMenu {
 	private static final float OPEN_MS = 130.0f;
 	private static final float CLOSE_MS = 90.0f;
 
-	private final GuiMessage target;
+	private final @Nullable GuiMessage target;
 	private final @Nullable Component header;
 	private final List<Item> items;
 	private final int[] itemTops;
@@ -43,7 +43,7 @@ public final class ContextMenu {
 	private int mouseIndex = -1;
 	private int keyboardIndex = -1;
 
-	public ContextMenu(GuiMessage target, @Nullable Component header, List<Item> items, int mouseX, int mouseY, int screenWidth, int screenHeight, Font font) {
+	public ContextMenu(@Nullable GuiMessage target, @Nullable Component header, List<Item> items, int mouseX, int mouseY, int screenWidth, int screenHeight, Font font) {
 		this.target = target;
 		this.header = header;
 		this.items = List.copyOf(items);
@@ -87,7 +87,7 @@ public final class ContextMenu {
 		this.originY = mouseY;
 	}
 
-	public GuiMessage target() {
+	public @Nullable GuiMessage target() {
 		return target;
 	}
 

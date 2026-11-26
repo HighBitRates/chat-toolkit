@@ -15,6 +15,7 @@ public final class TabBar {
 	private static final int ARROW = 8;
 	private static final int DOT = 6;
 	private static final int PLUS = 10;
+	private static final int BELL = 7;
 
 	// tab == null is the "+" button
 	public record Slot(@Nullable ChatTab tab, int x, int w) {
@@ -40,7 +41,7 @@ public final class TabBar {
 			if (tab.popped) {
 				continue;
 			}
-			int w = font.width(tab.name) + 8 + (tab.unread && tab.dot ? DOT : 0) + (tab == hovered ? ARROW : 0);
+			int w = font.width(tab.name) + 8 + (tab.unread && tab.notifies() ? DOT : 0) + (tab.muted ? BELL : 0) + (tab == hovered ? ARROW : 0);
 			out.add(new Slot(tab, x, w));
 			x += w + 1;
 		}
@@ -122,10 +123,12 @@ public final class TabBar {
 			if (isActive) {
 				g.fill(x, y, x + slot.w(), y + 1, Draw.rgba(0xFFFFFF, 0.8f));
 			}
-			int color = isActive ? 0xFFFFFF : over ? 0xBEBEBE : 0xAAAAAA;
+			int color = isActive ? 0xFFFFFF : tab.muted ? (over ? 0x8C8C8C : 0x6E6E6E) : over ? 0xBEBEBE : 0xAAAAAA;
 			g.text(font, tab.name, x + 4, y + 1, Draw.rgba(color, 1), true);
 			int after = x + 4 + font.width(tab.name);
-			if (tab.unread && tab.dot) {
+			if (tab.muted) {
+				drawMutedBell(g, after + 1, y + 2);
+			} else if (tab.unread && tab.notifies()) {
 				drawDot(g, after + 1, y + 3);
 			}
 			if (over) {
@@ -157,6 +160,19 @@ public final class TabBar {
 		g.fill(x + 3, y + 1, x + 4, y + 3, red);
 		g.fill(x + 1, y + 3, x + 3, y + 4, red);
 		g.fill(x + 1, y + 1, x + 3, y + 3, 0xFFFFFFFF);
+	}
+
+	// 5x5 bell with a red line through it
+	public static void drawMutedBell(GuiGraphicsExtractor g, int x, int y) {
+		int bell = 0xFF8A8A8A;
+		g.fill(x + 2, y, x + 3, y + 1, bell);
+		g.fill(x + 1, y + 1, x + 4, y + 3, bell);
+		g.fill(x, y + 3, x + 5, y + 4, bell);
+		g.fill(x + 2, y + 4, x + 3, y + 5, bell);
+		int red = 0xFFDC5050;
+		for (int i = 0; i < 6; i++) {
+			g.fill(x - 1 + i, y + 5 - i, x + i, y + 6 - i, red);
+		}
 	}
 
 	// small "pop out" arrow, 4x4

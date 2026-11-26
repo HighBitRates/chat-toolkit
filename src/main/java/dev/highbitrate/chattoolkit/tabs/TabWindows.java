@@ -191,8 +191,10 @@ public final class TabWindows implements HudElement {
 			g.fill(r.x(), r.bodyTop() - 1, r.x() + r.w(), r.bodyTop(), Draw.rgba(0xFFFFFF, 0.65f));
 		}
 		int titleRight = font.width(tab.name);
-		g.text(font, tab.name, r.x() + 4, r.y() + 2, Draw.rgba(target ? 0xFFFFFF : 0xAAAAAA, 1), true);
-		if (tab.unread && tab.dot) {
+		g.text(font, tab.name, r.x() + 4, r.y() + 2, Draw.rgba(target ? 0xFFFFFF : tab.muted ? 0x6E6E6E : 0xAAAAAA, 1), true);
+		if (tab.muted) {
+			TabBar.drawMutedBell(g, r.x() + 4 + titleRight + 2, r.y() + 3);
+		} else if (tab.unread && tab.notifies()) {
 			TabBar.drawDot(g, r.x() + 4 + titleRight + 2, r.y() + 3);
 		}
 		boolean overClose = hovered && hover.part() == Part.CLOSE;

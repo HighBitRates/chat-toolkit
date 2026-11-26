@@ -10,6 +10,8 @@ public final class ChatTab {
 	public boolean dot = true;
 	public String sendAs = "";
 	public boolean popped;
+	// muted tabs never get a red dot and are drawn dimmed
+	public boolean muted;
 
 	// window position as a fraction of the free screen space (-1 = not placed yet), size in gui pixels
 	public float windowX = -1;
@@ -31,6 +33,11 @@ public final class ChatTab {
 		this.color = color;
 		this.popped = popped;
 		this.rules.addAll(List.of(rules));
+	}
+
+	// Whether new messages should light up this tab
+	public boolean notifies() {
+		return dot && !muted;
 	}
 
 	public boolean isCatchAll() {
@@ -58,6 +65,7 @@ public final class ChatTab {
 		tab.dot = dot;
 		tab.sendAs = sendAs;
 		tab.popped = popped;
+		tab.muted = muted;
 		tab.windowX = windowX;
 		tab.windowY = windowY;
 		tab.windowWidth = windowWidth;

@@ -153,6 +153,14 @@ public final class TabManager {
 		TabStore.save();
 	}
 
+	public static void setMuted(ChatTab tab, boolean muted) {
+		tab.muted = muted;
+		if (muted) {
+			tab.unread = false;
+		}
+		TabStore.save();
+	}
+
 	// Bit i is set if the message belongs in tab i
 	public static int mask(GuiMessage message) {
 		MessageExtras extras = MessageExtras.of(message);
@@ -216,10 +224,10 @@ public final class TabManager {
 			}
 			if (tab.popped) {
 				tab.scroll = 0;
-				if (tab != target) {
+				if (tab != target && !tab.muted) {
 					tab.unread = true;
 				}
-			} else if (tab != open) {
+			} else if (tab != open && !tab.muted) {
 				tab.unread = true;
 			}
 		}
