@@ -61,6 +61,8 @@ public final class ChatScreenController {
 	private @Nullable Object installedFor;
 	private @Nullable ContextMenu menu;
 	private boolean searching;
+	// what the input box held when the chat opened, to notice the first edit
+	private String openedWith = "";
 	private @Nullable GuiMessage hovered;
 	private final Anim hoverAnim = new Anim(0, 20);
 	private @Nullable GuiMessage flashMessage;
@@ -131,6 +133,16 @@ public final class ChatScreenController {
 			return; // Fabric fires AFTER_INIT twice on resize; only hook each generation of events once
 		}
 		installedFor = marker;
+
+		ChatScreenAccessor access = (ChatScreenAccessor) screen;
+		if (access.chattoolkit$isDraft() && ChatToolkitConfig.get().keepDrafts) {
+			// vanilla shows drafts in grey italics and wipes them all on one Backspace; keep it as normal text
+			access.chattoolkit$setDraft(false);
+			TypingAids.markDraftRestored(true);
+		} else if (!access.chattoolkit$isDraft()) {
+			TypingAids.markDraftRestored(false);
+		}
+		openedWith = inputValue();
 
 		if (searchBar != null) {
 			searchBar.layout(screen.width, screen.height);
@@ -512,6 +524,9 @@ public final class ChatScreenController {
 
 	private void beforeRender(int mouseX, int mouseY) {
 		syncFocus();
+		if (!inputValue().equals(openedWith)) {
+			TypingAids.onEdited();
+		}
 		// follow the mouse every frame, drag events alone can look choppy
 		PinnedHud.dragTo(mouseX, mouseY, screen.width, screen.height);
 		TabWindows.setMouse(mouseX, mouseY);
@@ -568,10 +583,12 @@ public final class ChatScreenController {
 			return;
 		}
 		ChatTab chip = sendChip();
-		int x = chip == null ? 4 : 4 + Minecraft.getInstance().font.width(chip.name) + 9;
-		if (input.getX() != x) {
+		Font font = Minecraft.getInstance().font;
+		int x = chip == null ? 4 : 4 + font.width(chip.name) + 9;
+		int width = screen.width - x - TypingAids.reservedWidth(font);
+		if (input.getX() != x || input.getWidth() != width) {
 			input.setX(x);
-			input.setWidth(screen.width - x);
+			input.setWidth(width);
 		}
 	}
 
@@ -580,6 +597,7 @@ public final class ChatScreenController {
 		if (!SearchState.isActive()) {
 			UnreadSeparator.render(graphics, font, screen.height);
 		}
+		TypingAids.render(graphics, font, screen.width, screen.height, inputValue());
 		if (tabBarShown()) {
 			boolean dropping = TabWindows.isMoving() && TabBar.overBar(mouseX, mouseY, screen.height);
 			TabBar.render(graphics, font, mouseX, mouseY, screen.height, dropping);

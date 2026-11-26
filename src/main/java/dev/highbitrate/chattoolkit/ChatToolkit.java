@@ -2,6 +2,7 @@ package dev.highbitrate.chattoolkit;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.highbitrate.chattoolkit.chat.ChatScreenController;
+import dev.highbitrate.chattoolkit.chat.TypingAids;
 import dev.highbitrate.chattoolkit.command.ToolkitCommands;
 import dev.highbitrate.chattoolkit.config.ChatToolkitConfig;
 import dev.highbitrate.chattoolkit.config.ConfigScreen;
@@ -48,6 +49,7 @@ public final class ChatToolkit implements ClientModInitializer {
 		TabWindows.register();
 		ScreenshotToast.register();
 		ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+			TypingAids.clearAppend();
 			ServerData server = client.getCurrentServer();
 			TabStore.onJoin(server != null ? server.ip : null);
 		});

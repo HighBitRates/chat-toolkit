@@ -1,5 +1,6 @@
 package dev.highbitrate.chattoolkit.tabs;
 
+import dev.highbitrate.chattoolkit.chat.TypingAids;
 import dev.highbitrate.chattoolkit.ui.Draw;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -15,7 +16,7 @@ public final class TabBar {
 	private static final int ARROW = 8;
 	private static final int DOT = 6;
 	private static final int PLUS = 10;
-	private static final int BELL = 7;
+	private static final int BELL = 9;
 
 	// tab == null is the "+" button
 	public record Slot(@Nullable ChatTab tab, int x, int w) {
@@ -31,7 +32,7 @@ public final class TabBar {
 	}
 
 	public static int y(int screenHeight) {
-		return screenHeight - 25;
+		return screenHeight - 25 - TypingAids.previewHeight();
 	}
 
 	public static void layout(Font font) {
@@ -127,7 +128,7 @@ public final class TabBar {
 			g.text(font, tab.name, x + 4, y + 1, Draw.rgba(color, 1), true);
 			int after = x + 4 + font.width(tab.name);
 			if (tab.muted) {
-				drawMutedBell(g, after + 1, y + 2);
+				drawMutedBell(g, after + 3, y + 2);
 			} else if (tab.unread && tab.notifies()) {
 				drawDot(g, after + 1, y + 3);
 			}
@@ -162,16 +163,16 @@ public final class TabBar {
 		g.fill(x + 1, y + 1, x + 3, y + 3, 0xFFFFFFFF);
 	}
 
-	// 5x5 bell with a red line through it
+	// 5x6 bell with a red line through it
 	public static void drawMutedBell(GuiGraphicsExtractor g, int x, int y) {
-		int bell = 0xFF8A8A8A;
+		int bell = 0xFFA8A8A8;
 		g.fill(x + 2, y, x + 3, y + 1, bell);
-		g.fill(x + 1, y + 1, x + 4, y + 3, bell);
-		g.fill(x, y + 3, x + 5, y + 4, bell);
-		g.fill(x + 2, y + 4, x + 3, y + 5, bell);
-		int red = 0xFFDC5050;
+		g.fill(x + 1, y + 1, x + 4, y + 4, bell);
+		g.fill(x, y + 4, x + 5, y + 5, bell);
+		g.fill(x + 2, y + 5, x + 3, y + 6, bell);
+		int red = 0xFFE04848;
 		for (int i = 0; i < 6; i++) {
-			g.fill(x - 1 + i, y + 5 - i, x + i, y + 6 - i, red);
+			g.fill(x + i, y + 5 - i, x + i + 1, y + 6 - i, red);
 		}
 	}
 

@@ -104,6 +104,12 @@ public final class ConfigScreen extends Screen {
 		slider("stack_window", 0, 300, 10, () -> c.stackWindowSeconds, v -> c.stackWindowSeconds = v,
 			v -> v == 0 ? Component.translatable("chattoolkit.config.value.any_time") : Component.translatable("chattoolkit.config.value.seconds", v));
 
+		section("typing");
+		toggle("char_counter", () -> c.charCounter, v -> c.charCounter = v);
+		slider("char_warn", 5, 50, 5, () -> c.charWarnAt, v -> c.charWarnAt = v, v -> Component.literal(String.valueOf(v)));
+		toggle("append_preview", () -> c.appendPreview, v -> c.appendPreview = v);
+		toggle("keep_drafts", () -> c.keepDrafts, v -> c.keepDrafts = v);
+
 		section("search");
 		toggle("search_bar", () -> c.searchBar, v -> c.searchBar = v);
 		choice("search_width", ChatToolkitConfig.SearchWidth.values(), () -> c.searchWidth, v -> c.searchWidth = v);

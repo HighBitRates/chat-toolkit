@@ -169,7 +169,14 @@ public final class ScreenshotToast implements HudElement {
 		int textX = x + THUMB_W + 9;
 		Component title = status != null && now - statusAt < 1500 ? status : Component.translatable("chattoolkit.screenshot.saved");
 		g.text(font, title, textX, y + 5, Draw.rgba(Draw.TEXT, 1), false);
-		String name = font.plainSubstrByWidth(current.getName(), W - THUMB_W - 14);
+		String name = current.getName();
+		if (name.endsWith(".png")) {
+			name = name.substring(0, name.length() - 4);
+		}
+		int room = W - THUMB_W - 13;
+		if (font.width(name) > room) {
+			name = font.plainSubstrByWidth(name, room - font.width("...")) + "...";
+		}
 		g.text(font, Component.literal(name), textX, y + 15, Draw.rgba(0x828282, 1), false);
 
 		int bx = textX;

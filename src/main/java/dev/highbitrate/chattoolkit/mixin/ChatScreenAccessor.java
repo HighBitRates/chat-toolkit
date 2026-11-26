@@ -9,4 +9,10 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 public interface ChatScreenAccessor {
 	@Accessor("input")
 	EditBox chattoolkit$getInput();
+
+	@Accessor("isDraft")
+	boolean chattoolkit$isDraft();
+
+	@Accessor("isDraft")
+	void chattoolkit$setDraft(boolean draft);
 }

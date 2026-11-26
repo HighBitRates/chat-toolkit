@@ -219,7 +219,7 @@ public final class TabWindows implements HudElement {
 		int titleRight = font.width(tab.name);
 		g.text(font, tab.name, r.x() + 4, r.y() + 2, Draw.rgba(target ? 0xFFFFFF : tab.muted ? 0x6E6E6E : 0xAAAAAA, 1), true);
 		if (tab.muted) {
-			TabBar.drawMutedBell(g, r.x() + 4 + titleRight + 2, r.y() + 3);
+			TabBar.drawMutedBell(g, r.x() + 4 + titleRight + 3, r.y() + 2);
 		} else if (tab.unread && tab.notifies()) {
 			TabBar.drawDot(g, r.x() + 4 + titleRight + 2, r.y() + 3);
 		}

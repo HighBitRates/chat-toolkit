@@ -349,5 +349,16 @@
 	"chattoolkit.screenshot.copy": "Copy",
 	"chattoolkit.screenshot.folder": "Folder",
 	"chattoolkit.screenshot.copied": "Copied to clipboard",
-	"chattoolkit.screenshot.copied_path": "Copied the file path"
+	"chattoolkit.screenshot.copied_path": "Copied the file path",
+	"chattoolkit.config.section.typing": "Typing",
+	"chattoolkit.config.option.char_counter": "Character counter",
+	"chattoolkit.config.option.char_counter.tooltip": "Shows how many characters your message is out of 256, at the end of the chat box. If the open tab sends through a command, that counts too.",
+	"chattoolkit.config.option.char_warn": "Warn when this close",
+	"chattoolkit.config.option.char_warn.tooltip": "The counter turns orange when you have this many characters left.",
+	"chattoolkit.config.option.append_preview": "Show the last part when appending (--)",
+	"chattoolkit.config.option.append_preview.tooltip": "On servers like SchoolRP, ending a message with -- lets you keep writing in a new one. The part you just sent stays above the chat box in grey so you can see where you left off.",
+	"chattoolkit.config.option.keep_drafts": "Keep unsent drafts",
+	"chattoolkit.config.option.keep_drafts.tooltip": "If you close the chat with Escape halfway through a message, it's still there next time you open it.",
+	"chattoolkit.typing.part": "part %s",
+	"chattoolkit.typing.draft_kept": "draft kept"
 }

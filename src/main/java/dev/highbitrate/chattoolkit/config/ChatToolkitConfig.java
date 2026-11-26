@@ -38,6 +38,12 @@ public final class ChatToolkitConfig {
 	public boolean stackMessages = true;
 	public int stackWindowSeconds = 60;
 
+	// --- Typing ---
+	public boolean charCounter = true;
+	public int charWarnAt = 20;
+	public boolean appendPreview = true;
+	public boolean keepDrafts = true;
+
 	// --- Position ---
 	public boolean liftChat = true;
 	public int chatOffset = 0;
@@ -138,6 +144,7 @@ public final class ChatToolkitConfig {
 		historySize = clamp(historySize, 100, 10_000);
 		stackWindowSeconds = clamp(stackWindowSeconds, 0, 600);
 		screenshotToastSeconds = clamp(screenshotToastSeconds, 2, 15);
+		charWarnAt = clamp(charWarnAt, 5, 100);
 		panelOpacity = clamp(panelOpacity, 0, 100);
 		chatOffset = clamp(chatOffset, 0, 100);
 		if (hudX > 1 || hudY > 1 || hudX < 0 || hudY < 0) {

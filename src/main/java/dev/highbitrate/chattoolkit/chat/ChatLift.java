@@ -39,7 +39,7 @@ public final class ChatLift {
 
 	private static int target() {
 		ChatToolkitConfig config = ChatToolkitConfig.get();
-		int lift = config.chatOffset;
+		int lift = config.chatOffset + TypingAids.previewHeight();
 		if (!config.liftChat) {
 			return lift;
 		}
