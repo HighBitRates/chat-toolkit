@@ -6,6 +6,10 @@ Makes the Minecraft chat easier to use. Client-side, so it works on any server.
 - Right-click a message to copy it, paste it, save it as a note or remove it
 - Chat tabs, which can be popped out into their own windows
 - Tab presets per server (comes with one for SchoolRP)
+- Mute tabs, and change each window's opacity and text size
+- Repeated messages stack into one line, like (x12)
+- Screenshot notification with a preview and a button to copy the image
+- Character counter, a reminder of what you wrote when appending with `--`, and saved drafts
 - `/ccalc` calculator, `/cnote` notes, `/ctimer` timers and `/ccoords`
 - Works with Chat Animation and Client Commands
 

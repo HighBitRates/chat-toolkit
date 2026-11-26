@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.2.0
+- Repeated messages stack into one line with a count, like (x12). Hover the count to see when it started.
+- A red "NEW" line shows where unread messages start when you open a tab that had a red dot.
+- Right-clicking a tab opens a menu: open, pop out, mute or edit. Muted tabs are dimmed and never get a red dot.
+- Popped-out windows can have their own opacity and text size (right-click the title bar).
+- Screenshots show a notification card with a preview and Open, Copy and Folder buttons instead of a chat message. Copy puts the image itself on the clipboard.
+- Character counter at the end of the chat box that turns orange near the 256 limit.
+- When a message ends with `--`, the part you sent stays above the chat box in grey until you finish.
+- Closing the chat with Escape keeps what you were typing, as normal text.
+
 ## 1.1.2
 - Authors changed to HighBitRate and IbuprofenRP. The code package is now `dev.highbitrate.chattoolkit`.
 
