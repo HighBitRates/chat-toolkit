@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "chattoolkit",
+	"version": "${version}",
+	"name": "Chat Toolkit",
+	"description": "Search your chat, right-click messages to copy or paste them, plus a better calculator, notes and timers. Plays nicely with Chat Animation and Client Commands.",
+	"authors": [
+		"HighBitRate",
+		"IbuprofenRP"
+	],
+	"license": "MIT",
+	"icon": "assets/chattoolkit/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"dev.highbitrate.chattoolkit.ChatToolkit"
+		],
+		"modmenu": [
+			"dev.highbitrate.chattoolkit.config.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		{
+			"config": "chattoolkit.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.0",
+		"minecraft": "~26.3",
+		"java": ">=25",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"modmenu": "*"
+	}
+}

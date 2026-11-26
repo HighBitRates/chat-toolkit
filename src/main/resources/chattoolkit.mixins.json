@@ -1,0 +1,19 @@
+{
+	"required": true,
+	"package": "dev.highbitrate.chattoolkit.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"ChatComponentAccessor",
+		"ChatComponentMixin",
+		"ChatLineConsumerMixin",
+		"ChatScreenAccessor",
+		"ChatScreenMixin",
+		"GuiMessageMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}
