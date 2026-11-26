@@ -95,6 +95,7 @@ public final class ConfigScreen extends Screen {
 			c.tabsEnabled = v;
 			TabManager.changed();
 		});
+		toggle("unread_separator", () -> c.unreadSeparator, v -> c.unreadSeparator = v);
 		buttonRow("tabs_help", () -> Component.translatable("chattoolkit.config.option.tabs_help.button"),
 			() -> this.minecraft.gui.setScreen(new HowToUseScreen(this)), null);
 

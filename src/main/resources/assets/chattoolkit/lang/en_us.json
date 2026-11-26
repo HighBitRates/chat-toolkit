@@ -321,5 +321,8 @@
 	"chattoolkit.config.option.stack_window.tooltip": "How long a message can be repeated after and still stack. Set to the left for any time.",
 	"chattoolkit.config.value.seconds": "%ss",
 	"chattoolkit.config.value.any_time": "Any time",
-	"chattoolkit.stack.hover": "Repeated %s times since %s"
+	"chattoolkit.stack.hover": "Repeated %s times since %s",
+	"chattoolkit.config.option.unread_separator": "Unread separator",
+	"chattoolkit.config.option.unread_separator.tooltip": "When you open a tab with a red dot, a red line shows where the messages you haven't seen start.",
+	"chattoolkit.separator.new": "NEW"
 }

@@ -178,6 +178,7 @@ public final class ChatScreenController {
 	}
 
 	private void dispose() {
+		TabManager.onChatClosed();
 		PinnedHud.endDrag();
 		TabWindows.endDrag();
 		menu = null;
@@ -527,6 +528,9 @@ public final class ChatScreenController {
 
 	private void afterRender(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
 		Font font = Minecraft.getInstance().font;
+		if (!SearchState.isActive()) {
+			UnreadSeparator.render(graphics, font, screen.height);
+		}
 		if (tabBarShown()) {
 			boolean dropping = TabWindows.isMoving() && TabBar.overBar(mouseX, mouseY, screen.height);
 			TabBar.render(graphics, font, mouseX, mouseY, screen.height, dropping);

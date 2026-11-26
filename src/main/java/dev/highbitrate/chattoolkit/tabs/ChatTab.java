@@ -19,6 +19,9 @@ public final class ChatTab {
 
 	public transient boolean unread;
 	public transient int scroll;
+	// when you last looked at this tab, and where the "new" line goes while you're looking at it again
+	public transient long lastViewed;
+	public transient long separatorAfter;
 
 	public ChatTab() {
 	}

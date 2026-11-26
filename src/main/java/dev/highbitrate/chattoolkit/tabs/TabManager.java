@@ -43,9 +43,12 @@ public final class TabManager {
 		messages++;
 		target = null;
 		active = null;
+		long now = System.currentTimeMillis();
 		for (ChatTab tab : tabs()) {
 			tab.unread = false;
 			tab.scroll = 0;
+			tab.lastViewed = now;
+			tab.separatorAfter = 0;
 		}
 		fixActive();
 		SearchState.refreshChat();
@@ -85,12 +88,36 @@ public final class TabManager {
 		if (!tabs().contains(tab) || tab.popped) {
 			return;
 		}
+		boolean hadUnread = tab.unread;
 		tab.unread = false;
 		target = null;
 		if (tab != active) {
+			leave(active);
+			tab.separatorAfter = hadUnread && tab.lastViewed > 0 && ChatToolkitConfig.get().unreadSeparator ? tab.lastViewed : 0;
 			active = tab;
 			SearchState.refreshChat();
 		}
+	}
+
+	private static void leave(@Nullable ChatTab tab) {
+		if (tab != null) {
+			tab.lastViewed = System.currentTimeMillis();
+			tab.separatorAfter = 0;
+		}
+	}
+
+	// The chat was closed: whatever was open counts as read up to now
+	public static void onChatClosed() {
+		leave(activeTab());
+	}
+
+	// Messages newer than this get the "new" line above them in the open tab (0 = no line)
+	public static long separatorAfter() {
+		if (!enabled() || !ChatToolkitConfig.get().unreadSeparator) {
+			return 0;
+		}
+		ChatTab open = activeTab();
+		return open == null ? 0 : open.separatorAfter;
 	}
 
 	public static void popOut(ChatTab tab) {
