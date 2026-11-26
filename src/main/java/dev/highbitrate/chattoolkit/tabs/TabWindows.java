@@ -158,11 +158,12 @@ public final class TabWindows implements HudElement {
 
 	// Chat closed: like vanilla, only recent lines, fading out after 10 seconds
 	private static void drawClosed(GuiGraphicsExtractor g, Minecraft mc, ChatTab tab, Rect r) {
-		List<Line> lines = lines(tab, r.w(), mc.font);
+		List<Line> lines = lines(tab, wrapWidth(tab, r), mc.font);
 		int now = mc.gui.hud.getGuiTicks();
 		float text = textOpacity(mc);
-		float bg = backgroundOpacity(mc);
-		int y = r.bottom() - 2 - LINE;
+		float bg = background(mc, tab);
+		int lineH = lineHeight(tab);
+		int y = r.bottom() - 2 - lineH;
 		for (Line line : lines) {
 			if (y < r.bodyTop()) {
 				break;
@@ -173,10 +174,35 @@ public final class TabWindows implements HudElement {
 			if (alpha <= 0.01f) {
 				break;
 			}
-			g.fill(r.x(), y, r.x() + r.w(), y + LINE, Draw.rgba(0x000000, bg * alpha));
-			g.text(mc.font, line.text(), r.x() + 4, y + 1, Draw.rgba(0xFFFFFF, text * alpha), true);
-			y -= LINE;
+			g.fill(r.x(), y, r.x() + r.w(), y + lineH, Draw.rgba(0x000000, bg * alpha));
+			drawLine(g, mc.font, tab, line.text(), r.x() + 4, y + 1, Draw.rgba(0xFFFFFF, text * alpha));
+			y -= lineH;
 		}
+	}
+
+	private static int lineHeight(ChatTab tab) {
+		return Math.max(5, Math.round(LINE * tab.textScale()));
+	}
+
+	private static int wrapWidth(ChatTab tab, Rect r) {
+		return Math.max(20, (int) ((r.w() - 8) / tab.textScale()));
+	}
+
+	private static float background(Minecraft mc, ChatTab tab) {
+		return tab.windowOpacity >= 0 ? tab.windowOpacity / 100.0f : backgroundOpacity(mc);
+	}
+
+	private static void drawLine(GuiGraphicsExtractor g, Font font, ChatTab tab, FormattedCharSequence text, int x, int y, int color) {
+		float scale = tab.textScale();
+		if (scale == 1.0f) {
+			g.text(font, text, x, y, color, true);
+			return;
+		}
+		g.pose().pushMatrix();
+		g.pose().translate(x, y);
+		g.pose().scale(scale, scale);
+		g.text(font, text, 0, 0, color, true);
+		g.pose().popMatrix();
 	}
 
 	private static void drawOpen(GuiGraphicsExtractor g, Minecraft mc, ChatTab tab, Rect r) {
@@ -201,16 +227,17 @@ public final class TabWindows implements HudElement {
 		Draw.cross(g, r.x() + r.w() - 9, r.y() + 3, Draw.rgba(overClose ? 0xFFFFFF : 0xB0B0B0, 1));
 
 		// body
-		float bg = backgroundOpacity(mc);
-		g.fill(r.x(), r.bodyTop(), r.x() + r.w(), r.bottom(), Draw.rgba(0x000000, Math.max(0.35f, bg)));
-		List<Line> lines = lines(tab, r.w(), font);
-		int visible = Math.max(1, (r.h() - TITLE - 4) / LINE);
+		float bg = tab.windowOpacity >= 0 ? tab.windowOpacity / 100.0f : Math.max(0.35f, backgroundOpacity(mc));
+		g.fill(r.x(), r.bodyTop(), r.x() + r.w(), r.bottom(), Draw.rgba(0x000000, bg));
+		List<Line> lines = lines(tab, wrapWidth(tab, r), font);
+		int lineH = lineHeight(tab);
+		int visible = Math.max(1, (r.h() - TITLE - 4) / lineH);
 		tab.scroll = Mth.clamp(tab.scroll, 0, Math.max(0, lines.size() - visible));
-		int y = r.bottom() - 2 - LINE;
+		int y = r.bottom() - 2 - lineH;
 		float text = textOpacity(mc);
 		for (int i = tab.scroll; i < lines.size() && y >= r.bodyTop() + 1; i++) {
-			g.text(font, lines.get(i).text(), r.x() + 4, y + 1, Draw.rgba(0xFFFFFF, text), true);
-			y -= LINE;
+			drawLine(g, font, tab, lines.get(i).text(), r.x() + 4, y + 1, Draw.rgba(0xFFFFFF, text));
+			y -= lineH;
 		}
 		if (lines.size() > visible) {
 			int track = r.h() - TITLE - 4;
@@ -235,15 +262,15 @@ public final class TabWindows implements HudElement {
 	}
 
 	// Wrapped lines for a window, newest first
-	private static List<Line> lines(ChatTab tab, int width, Font font) {
+	private static List<Line> lines(ChatTab tab, int wrapWidth, Font font) {
 		Cache cache = caches.computeIfAbsent(tab, t -> new Cache());
 		List<GuiMessage> all = ChatHelper.allMessages();
 		if (cache.messages == TabManager.messagesVersion() && cache.version == TabManager.version()
-			&& cache.width == width && cache.total == all.size()) {
+			&& cache.width == wrapWidth && cache.total == all.size()) {
 			return cache.lines;
 		}
 		List<Line> lines = new ArrayList<>();
-		int wrap = Math.max(20, width - 8);
+		int wrap = wrapWidth;
 		int taken = 0;
 		for (GuiMessage message : all) {
 			if (!TabManager.belongsTo(message, tab)) {
@@ -259,7 +286,7 @@ public final class TabWindows implements HudElement {
 		}
 		cache.messages = TabManager.messagesVersion();
 		cache.version = TabManager.version();
-		cache.width = width;
+		cache.width = wrapWidth;
 		cache.total = all.size();
 		cache.lines = lines;
 		return lines;
@@ -305,8 +332,8 @@ public final class TabWindows implements HudElement {
 		if (my < r.bodyTop() || my >= r.bottom() - 2) {
 			return null;
 		}
-		int fromBottom = (int) ((r.bottom() - 2 - my) / LINE);
-		List<Line> lines = lines(tab, r.w(), mc.font);
+		int fromBottom = (int) ((r.bottom() - 2 - my) / lineHeight(tab));
+		List<Line> lines = lines(tab, wrapWidth(tab, r), mc.font);
 		int index = tab.scroll + fromBottom;
 		return index >= 0 && index < lines.size() ? lines.get(index).message() : null;
 	}

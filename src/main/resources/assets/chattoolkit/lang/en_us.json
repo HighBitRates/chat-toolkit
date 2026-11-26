@@ -330,5 +330,11 @@
 	"chattoolkit.tabs.menu.dock": "Put back in the tab bar",
 	"chattoolkit.tabs.menu.mute": "Mute tab",
 	"chattoolkit.tabs.menu.unmute": "Unmute tab",
-	"chattoolkit.tabs.menu.edit": "Edit tab..."
+	"chattoolkit.tabs.menu.edit": "Edit tab...",
+	"chattoolkit.tabs.menu.window": "Opacity and text size...",
+	"chattoolkit.window.title": "%s window",
+	"chattoolkit.window.opacity": "Opacity",
+	"chattoolkit.window.text_size": "Text size",
+	"chattoolkit.window.auto": "Auto",
+	"chattoolkit.window.reset": "Reset"
 }

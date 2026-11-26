@@ -18,6 +18,9 @@ public final class ChatTab {
 	public float windowY = -1;
 	public int windowWidth = 220;
 	public int windowHeight = 70;
+	// -1 follows the vanilla chat background setting
+	public int windowOpacity = -1;
+	public int windowTextSize = 100;
 
 	public transient boolean unread;
 	public transient int scroll;
@@ -38,6 +41,10 @@ public final class ChatTab {
 	// Whether new messages should light up this tab
 	public boolean notifies() {
 		return dot && !muted;
+	}
+
+	public float textScale() {
+		return windowTextSize / 100.0f;
 	}
 
 	public boolean isCatchAll() {
@@ -70,6 +77,8 @@ public final class ChatTab {
 		tab.windowY = windowY;
 		tab.windowWidth = windowWidth;
 		tab.windowHeight = windowHeight;
+		tab.windowOpacity = windowOpacity;
+		tab.windowTextSize = windowTextSize;
 		for (TabRule rule : rules) {
 			tab.rules.add(rule.copy());
 		}
@@ -94,6 +103,8 @@ public final class ChatTab {
 		}
 		windowWidth = Math.max(80, Math.min(600, windowWidth));
 		windowHeight = Math.max(30, Math.min(400, windowHeight));
+		windowOpacity = windowOpacity < 0 ? -1 : Math.min(100, windowOpacity);
+		windowTextSize = windowTextSize == 0 ? 100 : Math.max(50, Math.min(150, windowTextSize));
 		if (windowX > 1 || windowY > 1) {
 			windowX = -1;
 			windowY = -1;

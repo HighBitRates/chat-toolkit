@@ -9,6 +9,7 @@ import dev.highbitrate.chattoolkit.tabs.TabBar;
 import dev.highbitrate.chattoolkit.tabs.TabEditorScreen;
 import dev.highbitrate.chattoolkit.tabs.TabManager;
 import dev.highbitrate.chattoolkit.tabs.TabWindows;
+import dev.highbitrate.chattoolkit.tabs.WindowSettings;
 import dev.highbitrate.chattoolkit.mixin.ChatComponentAccessor;
 import dev.highbitrate.chattoolkit.mixin.ChatScreenAccessor;
 import dev.highbitrate.chattoolkit.notes.Note;
@@ -144,6 +145,10 @@ public final class ChatScreenController {
 
 		ScreenMouseEvents.allowMouseClick(screen).register((s, event) -> onMouseClick(event));
 		ScreenMouseEvents.allowMouseDrag(screen).register((s, event, dx, dy) -> {
+			if (WindowSettings.isDragging()) {
+				WindowSettings.dragTo(event.x());
+				return false;
+			}
 			if (PinnedHud.isDragging()) {
 				PinnedHud.dragTo(event.x(), event.y(), screen.width, screen.height);
 				return false;
@@ -155,6 +160,10 @@ public final class ChatScreenController {
 			return true;
 		});
 		ScreenMouseEvents.allowMouseRelease(screen).register((s, event) -> {
+			if (WindowSettings.isDragging()) {
+				WindowSettings.endDrag();
+				return false;
+			}
 			if (PinnedHud.isDragging()) {
 				PinnedHud.endDrag();
 				return false;
@@ -179,6 +188,7 @@ public final class ChatScreenController {
 
 	private void dispose() {
 		TabManager.onChatClosed();
+		WindowSettings.close();
 		PinnedHud.endDrag();
 		TabWindows.endDrag();
 		menu = null;
@@ -251,6 +261,9 @@ public final class ChatScreenController {
 
 		if (menu != null && menu.isOpen()) {
 			menu.mouseClicked(x, y, button);
+			return false;
+		}
+		if (WindowSettings.isOpen() && WindowSettings.mouseClicked(x, y)) {
 			return false;
 		}
 
@@ -387,6 +400,8 @@ public final class ChatScreenController {
 	private void openTabMenu(ChatTab tab, int x, int y) {
 		List<ContextMenu.Item> items = new ArrayList<>();
 		if (tab.popped) {
+			items.add(item("chattoolkit.tabs.menu.window", null, false,
+				() -> WindowSettings.open(tab, x, y, screen.width, screen.height)));
 			items.add(item("chattoolkit.tabs.menu.dock", null, false, () -> {
 				TabManager.dock(tab, TabManager.tabs().size());
 				TabManager.select(tab);
@@ -414,6 +429,10 @@ public final class ChatScreenController {
 
 	private boolean onKeyPress(KeyEvent event) {
 		if (menu != null && menu.isOpen() && menu.keyPressed(event)) {
+			return false;
+		}
+		if (WindowSettings.isOpen() && event.isEscape()) {
+			WindowSettings.close();
 			return false;
 		}
 
@@ -481,7 +500,8 @@ public final class ChatScreenController {
 
 	// True when the mouse is over one of our overlays, so vanilla chat hover tooltips should be suppressed
 	public boolean capturesMouse(double mouseX, double mouseY) {
-		return (menu != null && menu.alpha() > 0.05f && menu.contains(mouseX, mouseY)) || TabWindows.hitAt(mouseX, mouseY) != null;
+		return (menu != null && menu.alpha() > 0.05f && menu.contains(mouseX, mouseY)) || TabWindows.hitAt(mouseX, mouseY) != null
+			|| WindowSettings.contains(mouseX, mouseY);
 	}
 
 	// rendering
@@ -574,6 +594,7 @@ public final class ChatScreenController {
 		if (overPanel || PinnedHud.isDragging()) {
 			graphics.requestCursor(CursorTypes.RESIZE_ALL);
 		}
+		WindowSettings.render(graphics, font);
 		if (menu != null) {
 			menu.render(graphics, font, mouseX, mouseY);
 		}
