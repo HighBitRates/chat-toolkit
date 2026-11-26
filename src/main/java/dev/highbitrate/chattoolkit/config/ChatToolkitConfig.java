@@ -64,6 +64,11 @@ public final class ChatToolkitConfig {
 	public boolean calcSeparators = true;
 	public boolean calcStacks = true;
 
+	// --- Screenshots ---
+	public boolean screenshotToast = true;
+	public boolean screenshotMuteSound = false;
+	public int screenshotToastSeconds = 4;
+
 	// --- HUD ---
 	public boolean pinnedHud = true;
 	public HudCorner hudCorner = HudCorner.TOP_LEFT;
@@ -132,6 +137,7 @@ public final class ChatToolkitConfig {
 		}
 		historySize = clamp(historySize, 100, 10_000);
 		stackWindowSeconds = clamp(stackWindowSeconds, 0, 600);
+		screenshotToastSeconds = clamp(screenshotToastSeconds, 2, 15);
 		panelOpacity = clamp(panelOpacity, 0, 100);
 		chatOffset = clamp(chatOffset, 0, 100);
 		if (hudX > 1 || hudY > 1 || hudX < 0 || hudY < 0) {

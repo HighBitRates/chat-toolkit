@@ -139,6 +139,12 @@ public final class ConfigScreen extends Screen {
 		toggle("calc_separators", () -> c.calcSeparators, v -> c.calcSeparators = v);
 		toggle("calc_stacks", () -> c.calcStacks, v -> c.calcStacks = v);
 
+		section("screenshots");
+		toggle("screenshot_toast", () -> c.screenshotToast, v -> c.screenshotToast = v);
+		toggle("screenshot_mute", () -> c.screenshotMuteSound, v -> c.screenshotMuteSound = v);
+		slider("screenshot_seconds", 2, 15, 1, () -> c.screenshotToastSeconds, v -> c.screenshotToastSeconds = v,
+			v -> Component.translatable("chattoolkit.config.value.seconds", v));
+
 		section("hud");
 		toggle("pinned_hud", () -> c.pinnedHud, v -> c.pinnedHud = v);
 		choice("hud_corner", ChatToolkitConfig.HudCorner.values(), () -> c.hudCorner, v -> {

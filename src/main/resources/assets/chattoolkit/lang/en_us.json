@@ -336,5 +336,18 @@
 	"chattoolkit.window.opacity": "Opacity",
 	"chattoolkit.window.text_size": "Text size",
 	"chattoolkit.window.auto": "Auto",
-	"chattoolkit.window.reset": "Reset"
+	"chattoolkit.window.reset": "Reset",
+	"chattoolkit.config.section.screenshots": "Screenshots",
+	"chattoolkit.config.option.screenshot_toast": "Show a notification instead of a chat message",
+	"chattoolkit.config.option.screenshot_toast.tooltip": "After taking a screenshot, a small card slides in at the top right with a preview. Open the chat to use its Open, Copy and Folder buttons.",
+	"chattoolkit.config.option.screenshot_mute": "Mute sound",
+	"chattoolkit.config.option.screenshot_mute.tooltip": "Don't play a sound when the notification shows up.",
+	"chattoolkit.config.option.screenshot_seconds": "How long it stays",
+	"chattoolkit.config.option.screenshot_seconds.tooltip": "How long the notification stays before sliding away. It waits while your mouse is on it.",
+	"chattoolkit.screenshot.saved": "Screenshot saved",
+	"chattoolkit.screenshot.open": "Open",
+	"chattoolkit.screenshot.copy": "Copy",
+	"chattoolkit.screenshot.folder": "Folder",
+	"chattoolkit.screenshot.copied": "Copied to clipboard",
+	"chattoolkit.screenshot.copied_path": "Copied the file path"
 }

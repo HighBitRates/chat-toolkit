@@ -10,6 +10,7 @@ import dev.highbitrate.chattoolkit.tabs.TabEditorScreen;
 import dev.highbitrate.chattoolkit.tabs.TabManager;
 import dev.highbitrate.chattoolkit.tabs.TabWindows;
 import dev.highbitrate.chattoolkit.tabs.WindowSettings;
+import dev.highbitrate.chattoolkit.screenshot.ScreenshotToast;
 import dev.highbitrate.chattoolkit.mixin.ChatComponentAccessor;
 import dev.highbitrate.chattoolkit.mixin.ChatScreenAccessor;
 import dev.highbitrate.chattoolkit.notes.Note;
@@ -266,6 +267,9 @@ public final class ChatScreenController {
 		if (WindowSettings.isOpen() && WindowSettings.mouseClicked(x, y)) {
 			return false;
 		}
+		if (ScreenshotToast.mouseClicked(x, y)) {
+			return false;
+		}
 
 		if (PinnedHud.contains(x, y) && (menu == null || !menu.isOpen())) {
 			if (button == InputConstants.MOUSE_BUTTON_LEFT) {
@@ -501,7 +505,7 @@ public final class ChatScreenController {
 	// True when the mouse is over one of our overlays, so vanilla chat hover tooltips should be suppressed
 	public boolean capturesMouse(double mouseX, double mouseY) {
 		return (menu != null && menu.alpha() > 0.05f && menu.contains(mouseX, mouseY)) || TabWindows.hitAt(mouseX, mouseY) != null
-			|| WindowSettings.contains(mouseX, mouseY);
+			|| WindowSettings.contains(mouseX, mouseY) || ScreenshotToast.contains(mouseX, mouseY);
 	}
 
 	// rendering
@@ -511,6 +515,7 @@ public final class ChatScreenController {
 		// follow the mouse every frame, drag events alone can look choppy
 		PinnedHud.dragTo(mouseX, mouseY, screen.width, screen.height);
 		TabWindows.setMouse(mouseX, mouseY);
+		ScreenshotToast.setMouse(mouseX, mouseY);
 		TabWindows.dragTo(mouseX, mouseY, screen.width, screen.height);
 		layoutInput();
 		if (menu != null && menu.isFinished()) {

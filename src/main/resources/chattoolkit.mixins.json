@@ -8,7 +8,8 @@
 		"ChatLineConsumerMixin",
 		"ChatScreenAccessor",
 		"ChatScreenMixin",
-		"GuiMessageMixin"
+		"GuiMessageMixin",
+		"ScreenshotMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

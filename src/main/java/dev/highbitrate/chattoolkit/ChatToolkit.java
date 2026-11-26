@@ -8,6 +8,7 @@ import dev.highbitrate.chattoolkit.config.ConfigScreen;
 import dev.highbitrate.chattoolkit.hud.PinnedHud;
 import dev.highbitrate.chattoolkit.tabs.TabStore;
 import dev.highbitrate.chattoolkit.tabs.TabWindows;
+import dev.highbitrate.chattoolkit.screenshot.ScreenshotToast;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.minecraft.client.multiplayer.ServerData;
 import dev.highbitrate.chattoolkit.notes.NoteStore;
@@ -45,6 +46,7 @@ public final class ChatToolkit implements ClientModInitializer {
 		PinnedHud.register();
 		TabStore.load();
 		TabWindows.register();
+		ScreenshotToast.register();
 		ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
 			ServerData server = client.getCurrentServer();
 			TabStore.onJoin(server != null ? server.ip : null);
